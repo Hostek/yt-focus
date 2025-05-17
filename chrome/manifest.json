@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "YouTube Channel Filter",
+    "name": "YouTube Focus",
     "version": "1.0",
-    "description": "Redirects if watching videos not from allowed channels.",
+    "description": "YouTube Focus is an extension that aims to make youtube to be less distracting.",
     "permissions": ["tabs", "scripting", "storage"],
     "host_permissions": ["*://www.youtube.com/*"],
     "content_scripts": [
