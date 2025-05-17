@@ -1,5 +1,4 @@
-// tmp channel list
-const allowedChannels = ["Veritasium", "Kurzgesagt – In a Nutshell"]
+let allowedChannels = []
 let lastChannelName = null
 
 function checkChannel() {
@@ -33,22 +32,39 @@ function observeChannelChanges() {
     checkChannel() // Also check immediately
 }
 
-// Observe full body for page transitions
-let lastUrl = location.href
-const pageObserver = new MutationObserver(() => {
-    const currentUrl = location.href
-    if (currentUrl !== lastUrl) {
-        lastUrl = currentUrl
+function startObserving() {
+    // Observe full body for page transitions
+    let lastUrl = location.href
+    const pageObserver = new MutationObserver(() => {
+        const currentUrl = location.href
+        if (currentUrl !== lastUrl) {
+            lastUrl = currentUrl
 
-        if (currentUrl.includes("youtube.com/watch")) {
-            setTimeout(() => observeChannelChanges(), 1000) // delay for DOM to load
+            if (currentUrl.includes("youtube.com/watch")) {
+                setTimeout(() => observeChannelChanges(), 1000) // delay for DOM to load
+            }
         }
-    }
-})
-pageObserver.observe(document.body, { childList: true, subtree: true })
+    })
+    pageObserver.observe(document.body, { childList: true, subtree: true })
 
-window.addEventListener("load", () => {
-    if (location.href.includes("youtube.com/watch")) {
-        setTimeout(() => observeChannelChanges(), 1000)
+    window.addEventListener("load", () => {
+        if (location.href.includes("youtube.com/watch")) {
+            setTimeout(() => observeChannelChanges(), 1000)
+        }
+    })
+}
+
+// Load allowed channels from storage and then start logic
+chrome.storage.sync.get(
+    "allowedChannels",
+    ({ allowedChannels: storedChannels }) => {
+        allowedChannels = (storedChannels || [])
+            .filter((ch) => ch.active)
+            .map((ch) => ch.name)
+
+        console.log("Loaded allowed channels:", allowedChannels)
+
+        // start logic!
+        startObserving()
     }
-})
+)
