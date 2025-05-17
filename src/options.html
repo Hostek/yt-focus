@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>YT-Focus Control Panel</title>
+        <style>
+            body {
+                font-family: "Segoe UI", sans-serif;
+                background: #f9f9f9;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .header {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin: 0;
+            }
+
+            #channel-list {
+                list-style: none;
+                padding: 0;
+                margin: 0 0 20px 0;
+            }
+
+            .channel-item {
+                background: #fff;
+                border: 1px solid #ddd;
+                padding: 10px;
+                margin-bottom: 8px;
+                border-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .channel-item.inactive {
+                opacity: 0.5;
+            }
+
+            .channel-name {
+                flex-grow: 1;
+            }
+
+            .actions button {
+                margin-left: 6px;
+            }
+
+            #new-channel {
+                width: 70%;
+                padding: 8px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+
+            #add-button {
+                padding: 8px 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <!-- <img src="icon.png" alt="YT-Focus Logo" class="logo" /> -->
+            <h1>YT-Focus Control Panel</h1>
+        </div>
+
+        <ul id="channel-list"></ul>
+
+        <input
+            type="text"
+            id="new-channel"
+            placeholder="Add channel name (e.g. Veritasium)"
+        />
+        <button id="add-button">Add</button>
+
+        <script src="options.js"></script>
+    </body>
+</html>

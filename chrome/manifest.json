@@ -3,7 +3,7 @@
     "name": "YouTube Channel Filter",
     "version": "1.0",
     "description": "Redirects if watching videos not from allowed channels.",
-    "permissions": ["tabs", "scripting"],
+    "permissions": ["tabs", "scripting", "storage"],
     "host_permissions": ["*://www.youtube.com/*"],
     "content_scripts": [
         {
@@ -11,5 +11,6 @@
             "js": ["content.js"],
             "run_at": "document_idle"
         }
-    ]
+    ],
+    "options_page": "options.html"
 }
