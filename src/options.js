@@ -35,7 +35,6 @@ function loadChannels() {
     })
 }
 
-// Add a new channel
 document.getElementById("add-button").addEventListener("click", () => {
     const input = document.getElementById("new-channel")
     const name = input.value.trim()
@@ -53,7 +52,6 @@ document.getElementById("add-button").addEventListener("click", () => {
     })
 })
 
-// Delete a channel
 function deleteChannel(index) {
     chrome.storage.sync.get(["allowedChannels"], (result) => {
         const channels = result.allowedChannels || []
@@ -62,7 +60,6 @@ function deleteChannel(index) {
     })
 }
 
-// Toggle active/inactive
 function toggleChannel(index) {
     chrome.storage.sync.get(["allowedChannels"], (result) => {
         const channels = result.allowedChannels || []
@@ -71,5 +68,25 @@ function toggleChannel(index) {
     })
 }
 
-// Load on page open
 document.addEventListener("DOMContentLoaded", loadChannels)
+
+// Theme toggle logic (probably we want to export it to other file ...)
+const themeToggle = document.getElementById("theme-toggle")
+
+themeToggle.addEventListener("click", () => {
+    const body = document.body
+    const isLight = body.classList.toggle("light")
+    themeToggle.textContent = isLight ? "Dark Mode" : "Light Mode"
+    chrome.storage.sync.set({ theme: isLight ? "light" : "dark" })
+})
+
+// Load theme on start
+document.addEventListener("DOMContentLoaded", () => {
+    loadChannels()
+    chrome.storage.sync.get("theme", ({ theme }) => {
+        if (theme === "light") {
+            document.body.classList.add("light")
+            themeToggle.textContent = "Dark Mode"
+        }
+    })
+})
