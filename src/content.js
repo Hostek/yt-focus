@@ -1,6 +1,16 @@
 let allowedChannels = []
 let lastChannelName = null
 
+function removeSidebars(retries = 5) {
+    const sidebars = document.querySelectorAll("#secondary")
+    if (sidebars.length) {
+        sidebars.forEach((el) => el.remove())
+        console.log("Removed sidebar(s)")
+    } else if (retries > 0) {
+        setTimeout(() => removeSidebars(retries - 1), 500)
+    }
+}
+
 function checkChannel() {
     const channelLink = document.querySelector("#owner #channel-name a")
 
@@ -18,6 +28,9 @@ function checkChannel() {
             // document.body.innerHTML = `${channelName}`
         }
     }
+
+    // remove sidebar with additional videos
+    removeSidebars()
 }
 
 // Watch for DOM changes in the channel name container
