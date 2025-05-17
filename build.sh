@@ -29,6 +29,12 @@ CURRENT_FILES=$(mktemp)
 # Copy new/updated files from src to chrome
 cp -r "$SRC_DIR/"* "$DEST_DIR/"
 
+# Replace VERSION_NUM in manifest.json with provided version
+MANIFEST_FILE="${DEST_DIR}/manifest.json"
+if [ -f "$MANIFEST_FILE" ]; then
+    sed -i.bak "s/VERSION_NUM/${VER}/g" "$MANIFEST_FILE"
+fi
+
 # Save list of current files after copy
 (
     cd "$DEST_DIR" || exit 1
@@ -42,6 +48,11 @@ NEW_FILES=$(comm -13 <(sort "$TEMP_FILE") <(sort "$CURRENT_FILES"))
 cd "$DEST_DIR" || exit 1
 zip -r "../$ZIP_NAME" ./*
 cd - >/dev/null
+
+# Restore original manifest.json
+if [ -f "${MANIFEST_FILE}.bak" ]; then
+    mv "${MANIFEST_FILE}.bak" "$MANIFEST_FILE"
+fi
 
 # Delete only newly added files
 cd "$DEST_DIR" || exit 1
