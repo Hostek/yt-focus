@@ -1,0 +1,30 @@
+name: Build and Upload Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up version from tag
+        id: get_version
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "VERSION=${TAG_NAME}" >> $GITHUB_ENV
+          echo "Using version: $TAG_NAME"
+
+      - name: Run build script
+        run: ./build.sh -v $VERSION
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: yt-focus-${{ env.VERSION }}-chrome.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
