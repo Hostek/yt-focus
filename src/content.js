@@ -2,7 +2,7 @@ let allowedChannels = []
 let lastChannelName = null
 
 function checkChannel() {
-    const channelLink = document.querySelector("#channel-name a")
+    const channelLink = document.querySelector("#owner #channel-name a")
 
     if (channelLink && channelLink.innerText.trim() !== "") {
         const channelName = channelLink.innerText.trim()
@@ -15,6 +15,7 @@ function checkChannel() {
         if (!allowedChannels.includes(channelName)) {
             console.log("Blocked channel. Redirecting...")
             window.location.href = "https://www.youtube.com"
+            // document.body.innerHTML = `${channelName}`
         }
     }
 }
