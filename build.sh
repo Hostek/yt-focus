@@ -27,7 +27,7 @@ fi
 
 SRC_DIR="./src"
 DEST_DIR="./chrome"
-ZIP_NAME="yt-focus-${VER}-chrome.zip"
+ZIP_NAME="yt-focus-${VER_FULL}-chrome.zip"
 
 # Create temp files to track files
 TEMP_FILE=$(mktemp)
@@ -46,8 +46,8 @@ cp -r "$SRC_DIR/"* "$DEST_DIR/"
 MANIFEST_FILE="${DEST_DIR}/manifest.json"
 if [ -f "$MANIFEST_FILE" ]; then
     sed -i.bak \
-        -e "s/VERSION_NUM/${VER}/g" \
         -e "s/VERSION_NUM_FULL/${VER_FULL}/g" \
+        -e "s/VERSION_NUM/${VER}/g" \
         "$MANIFEST_FILE"
 fi
 
