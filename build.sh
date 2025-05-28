@@ -3,13 +3,26 @@
 # Parse arguments
 while getopts v: flag; do
     case "${flag}" in
-    v) VER=${OPTARG} ;;
+    v) VER_FULL=${OPTARG} ;;
+    *)
+        echo "Usage: $0 -v VERSION"
+        exit 1
+        ;;
     esac
 done
 
-if [ -z "$VER" ]; then
-    echo "Usage: $0 -v VERSION"
+# Check if -v was provided
+if [ -z "$VER_FULL" ]; then
+    echo "Error: -v VERSION is required"
     exit 1
+fi
+
+# Remove all characters except digits and dots
+VER=$(echo "$VER_FULL" | tr -cd '0-9.')
+
+# Default to "0" if cleaned version is empty
+if [ -z "$VER" ]; then
+    VER="0"
 fi
 
 SRC_DIR="./src"
@@ -29,10 +42,13 @@ CURRENT_FILES=$(mktemp)
 # Copy new/updated files from src to chrome
 cp -r "$SRC_DIR/"* "$DEST_DIR/"
 
-# Replace VERSION_NUM in manifest.json with provided version
+# Replace VERSION_NUM and VERSION_NUM_FULL in manifest.json
 MANIFEST_FILE="${DEST_DIR}/manifest.json"
 if [ -f "$MANIFEST_FILE" ]; then
-    sed -i.bak "s/VERSION_NUM/${VER}/g" "$MANIFEST_FILE"
+    sed -i.bak \
+        -e "s/VERSION_NUM/${VER}/g" \
+        -e "s/VERSION_NUM_FULL/${VER_FULL}/g" \
+        "$MANIFEST_FILE"
 fi
 
 # Save list of current files after copy
