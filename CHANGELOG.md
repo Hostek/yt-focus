@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- When user clicks back button it still redirects
+
 ## [1.0.0] – 2025-05-17
 
 ### Added
