@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.0.1] – 2025-08-14
+
 ### Fixed
 
 - When user clicks back button it still redirects
